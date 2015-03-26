@@ -1,9 +1,13 @@
 {
-    "type": "Twitter",
-    "gsheetsKey": "[gsheetkey]",
-    "gsheetsWorksheet": "Ark 1",
-    "batchname": "Tweets",
-    "filters": ["tags", "user", "type"],
-    "lastUpdated": "",
-    "lastIndexedID": ""
+  "type": "Twitter",
+  "gsheetsKey": "[gsheetsKey]",
+  "gsheetsWorksheet": "Ark 1",
+  "batchname": "Tweets",
+  "filters": [
+    "tags",
+    "user",
+    "type"
+  ],
+  "gsheetLastUpdated": "",
+  "newestItemDate": ""
 }
