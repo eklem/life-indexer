@@ -2,10 +2,11 @@
 var gsheets = require('gsheets')
 var fs = require('fs-extra')
 var ifttnorch = require('iftt-norch-tools')
-var si = require('search-index')
+var options = { indexPath: 'si', logLevel: 'info', logSilent: false }
+var si = require('search-index')(options)
 var jf = require('jsonfile')
 var util = require('util')
-var configfile = '/Users/eklem/node_modules/life-indexer/config/config-twitter.json'
+var configfile = '/Users/eklem/node_modules/life-indexer/config/config-twitter-tweets.json'
 
 
 // Read config file
@@ -55,7 +56,7 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
         // Write config file
         jf.writeFileSync(configfile, config)
       }
-    })
+    });
   }
 
   // Nothing to index, just move along

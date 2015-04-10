@@ -2,7 +2,8 @@
 var gsheets = require('gsheets')
 var fs = require('fs-extra')
 var ifttnorch = require('iftt-norch-tools')
-var si = require('search-index')
+var options = { indexPath: 'si', logLevel: 'info', logSilent: false }
+var si = require('search-index')(options)
 var jf = require('jsonfile')
 var util = require('util')
 var configfile = '/Users/eklem/node_modules/life-indexer/config/config-gmail-starred.json'
