@@ -33,6 +33,7 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
         
         // Document processing the rest
         obj.datehuman = ifttnorch.datehuman(obj.date)
+        obj.text = ifttnorch.sanitizehtml(obj.text)
         obj.id = ifttnorch.id(obj.date, obj.text, obj.type)
         obj.email = ifttnorch.emailaddress(obj.email)
         obj.user = ifttnorch.emailuser(obj.email)
