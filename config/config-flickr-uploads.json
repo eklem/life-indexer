@@ -1,0 +1,12 @@
+{
+  "type": "Flickr",
+  "gsheetsKey": "[gsheetsKey]",
+  "gsheetsWorksheet": "Ark 1",
+  "batchname": "GmailStarred",
+  "filters": [
+    "user",
+    "type"
+  ],
+  "gsheetLastUpdated": "",
+  "newestItemDate": ""
+}
