@@ -35,7 +35,7 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
         obj.datehuman = ifttnorch.datehuman(obj.date)
         obj.id = ifttnorch.id(obj.date, obj.text, obj.type)
         obj.user = ifttnorch.twitterusers(obj.user, obj.text)
-        obj.tags = ifttnorch.tags(obj.text)
+        obj.tags = ifttnorch.tagstext(obj.text)
         obj.links = ifttnorch.links(obj.text)
         obj.type = [config.type]
         

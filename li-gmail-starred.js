@@ -34,11 +34,12 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
         // Document processing the rest
         obj.datehuman = ifttnorch.datehuman(obj.date)
         obj.text = ifttnorch.sanitizehtml(obj.text)
+        obj.type = [config.type]
+        //console.log('date: ' + obj.date + '\ntype: ' + obj.type)
         obj.id = ifttnorch.id(obj.date, obj.text, obj.type)
         obj.email = ifttnorch.emailaddress(obj.email)
         obj.user = ifttnorch.emailuser(obj.email)
         obj.gravatar = ifttnorch.emailgravatar(obj.email)
-        obj.type = [config.type]
         
         // Push to the array that will be indexed + array for latest update
         newItems.push(obj)
@@ -46,10 +47,10 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
       }
     }
 
-    console.dir(newItems)
+    //console.dir(newItems)
 
     //Index newItems and update config-file with new dates'
-    console.dir(config)
+    //console.dir(config)
     si.add({'batchName': config.batchname, 'filters': config.filters}, newItems, function(err) {
       if (!err) {
         console.log('indexed!')
