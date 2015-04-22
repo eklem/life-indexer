@@ -1,11 +1,13 @@
 {
   "type": "Flickr",
+  "user": "eklem",
   "gsheetsKey": "[gsheetsKey]",
   "gsheetsWorksheet": "Ark 1",
-  "batchname": "GmailStarred",
+  "batchname": "FlickrUploads",
   "filters": [
     "user",
-    "type"
+    "type",
+    "tags"
   ],
   "gsheetLastUpdated": "",
   "newestItemDate": ""

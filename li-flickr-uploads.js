@@ -35,6 +35,7 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
         obj.datehuman = ifttnorch.datehuman(obj.date)
         obj.text = ifttnorch.sanitizehtml(obj.text)
         obj.type = [config.type]
+        obj.user = [config.user]
         obj.id = ifttnorch.id(obj.date, obj.urlimage, obj.type)
         obj.tags = ifttnorch.tagslist(obj.tags)
         
