@@ -36,7 +36,7 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
         obj.text = ifttnorch.sanitizehtml(obj.text)
         obj.type = [config.type]
         obj.user = [config.user]
-        obj.id = ifttnorch.id(obj.date, obj.urlimage, obj.type)
+        obj.id = ifttnorch.id(obj.date + obj.urlimage + obj.title + obj.text)
         obj.tags = ifttnorch.tagslist(obj.tags)
         
         // Push to the array that will be indexed + array for latest update

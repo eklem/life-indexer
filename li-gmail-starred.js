@@ -35,8 +35,7 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
         obj.datehuman = ifttnorch.datehuman(obj.date)
         obj.text = ifttnorch.sanitizehtml(obj.text)
         obj.type = [config.type]
-        //console.log('date: ' + obj.date + '\ntype: ' + obj.type)
-        obj.id = ifttnorch.id(obj.date, obj.text, obj.type)
+        obj.id = ifttnorch.id(obj.date + obj.text + obj.title + obj.file)
         obj.email = ifttnorch.emailaddress(obj.email)
         obj.user = ifttnorch.emailuser(obj.email)
         obj.gravatar = ifttnorch.emailgravatar(obj.email)
