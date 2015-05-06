@@ -10,17 +10,20 @@ var configfile = '/Users/eklem/node_modules/life-indexer/config/config-twitter-t
 
 
 // Read config file
-config = jf.readFileSync(configfile)
+var config = jf.readFileSync(configfile)
 
 
 // Get csv-file as 'data' (object)
 gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, result) {
+  if (err) {
+    console.dif(err)
+  }
   
   // Check if ANY changes since last indexing process
-  if (result.updated != config.gsheetLastUpdated) {
+  else if (result.updated != config.gsheetLastUpdated) {
 
     console.log('Index is not up to date.\nGsheet updated: ' + config.gsheetLastUpdated + '\nConfig updated: ' + result.updated)
-    var newTweets = []
+    var newItems = []
     var datesUpdated = []
 
     // Iterating through rows of data from spreadsheet
@@ -40,18 +43,18 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
         obj.type = [config.type]
         
         // Push to the array that will be indexed + array for latest update
-        newTweets.push(obj)
+        newItems.push(obj)
         datesUpdated.push(obj.date)
       }
     }
 
-    //Index newTweets and update config-file with new dates
-    si.add({'batchName': config.batchname, 'filters': config.filters}, newTweets, function(err) {
+    //Index newItems and update config-file with new dates
+    si.add({'batchName': config.batchname, 'filters': config.filters}, newItems, function(err) {
       if (!err) {
         console.log('indexed!')
         config.newestItemDate = ifttnorch.findnewestdate(datesUpdated)
         config.gsheetLastUpdated = result.updated
-        console.dir(config)
+        //console.dir(config)
 
         // Write config file
         jf.writeFileSync(configfile, config)

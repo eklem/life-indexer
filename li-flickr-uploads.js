@@ -10,14 +10,17 @@ var configfile = '/Users/eklem/node_modules/life-indexer/config/config-flickr-up
 
 
 // Read config file
-config = jf.readFileSync(configfile)
+var config = jf.readFileSync(configfile)
 
 
 // Get csv-file as 'data' (object)
 gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, result) {
+  if (err) {
+    console.dif(err)
+  }
   
   // Check if ANY changes since last indexing process
-  if (result.updated != config.gsheetLastUpdated) {
+  else if (result.updated != config.gsheetLastUpdated) {
 
     console.log('Index is not up to date.\nGsheet updated: ' + config.gsheetLastUpdated + '\nConfig updated: ' + result.updated)
     var newItems = []
@@ -45,10 +48,10 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
       }
     }
 
-    console.dir(newItems)
+    //console.dir(newItems)
 
     //Index newItems and update config-file with new dates'
-    console.dir(config)
+    //console.dir(config)
     si.add({'batchName': config.batchname, 'filters': config.filters}, newItems, function(err) {
       if (!err) {
         console.log('indexed!')
