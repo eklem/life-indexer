@@ -1,0 +1,12 @@
+{
+  "type": "GitHub",
+  "gsheetsKey": "[gsheetsKey]",
+  "gsheetsWorksheet": "Ark 1",
+  "batchname": "GithubIssues",
+  "filters": [
+    "user",
+    "type"
+  ],
+  "gsheetLastUpdated": "",
+  "newestItemDate": ""
+}
