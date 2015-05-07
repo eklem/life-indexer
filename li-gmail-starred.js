@@ -20,7 +20,7 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
   }
   
   // Check if ANY changes since last indexing process
-  else if (result.updated != config.gsheetLastUpdated) {
+  if (result.updated != config.gsheetLastUpdated) {
 
     console.log('Index is not up to date.\nGsheet updated: ' + config.gsheetLastUpdated + '\nConfig updated: ' + result.updated)
     var newItems = []
@@ -31,9 +31,11 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
       var obj = result.data[i]
 
       // Getting date and checking if indexed before
-      obj.date = ifttnorch.date(obj.date)
+      //'j' for no leading zero
+      //'d' for leading zero
+      obj.date = ifttnorch.date(obj.date, 'd')
       if (obj.date > config.newestItemDate) {
-        
+
         // Document processing the rest
         obj.datehuman = ifttnorch.datehuman(obj.date)
         obj.text = ifttnorch.sanitizehtml(obj.text)

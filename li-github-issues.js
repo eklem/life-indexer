@@ -26,19 +26,16 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
     var newItems = []
     var datesUpdated = []
 
-    console.log(result)
-
     // Iterating through rows of data from spreadsheet
     for (var i=0; i<result.data.length; i++) {
       var obj = result.data[i]
 
-
       // Getting date and checking if indexed before
-      console.log(i+2)
-      obj.date = ifttnorch.date(obj.date)
-      console.log(i+2)
-      console.log('row #' + (i+2) + '  date: ' + obj.date + ' title: ' + obj.title + '\n')
+      //'j' for no leading zero
+      //'d' for leading zero
+      obj.date = ifttnorch.date(obj.date, 'j')
       if (obj.date > config.newestItemDate) {
+
         // Document processing the rest
         obj.datehuman = ifttnorch.datehuman(obj.date)
         obj.text = ifttnorch.sanitizehtml(obj.text)
