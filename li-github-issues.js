@@ -38,7 +38,7 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
 
         // Document processing the rest
         obj.datehuman = ifttnorch.datehuman(obj.date)
-        obj.text = ifttnorch.sanitizehtml(obj.text)
+        obj.text = ifttnorch.markdown2html(obj.text)
         obj.type = [config.type]
         obj.id = ifttnorch.id(obj.date + obj.url + obj.title + obj.text)
         
