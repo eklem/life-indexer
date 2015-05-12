@@ -16,7 +16,7 @@ var config = jf.readFileSync(configfile)
 // Get csv-file as 'data' (object)
 gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, result) {
   if (err) {
-    console.dif(err)
+    console.dir(err)
   }
   
   // Check if ANY changes since last indexing process
@@ -37,12 +37,13 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
       if (obj.date > config.newestItemDate) {
         
         // Document processing the rest
-        obj.datehuman = ifttnorch.datehuman(obj.date)
-        obj.text = ifttnorch.sanitizehtml(obj.text)
-        obj.type = [config.type]
-        obj.user = [config.user]
-        obj.id = ifttnorch.id(obj.date + obj.urlimage + obj.title + obj.text)
-        obj.tags = ifttnorch.tagslist(obj.tags)
+        obj.datehuman = ifttnorch.datehuman(obj.date);
+        obj.text = ifttnorch.sanitizehtml(obj.text, [ 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div', 'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'img' ] , {a: [ 'href', 'name', 'target' ], img: [ 'src' ]});
+        obj.teasertext = ifttnorch.sanitizehtml(obj.text, [], {});
+        obj.type = [config.type];
+        obj.user = [config.user];
+        obj.id = ifttnorch.id(obj.date + obj.urlimage + obj.title + obj.text);
+        obj.tags = ifttnorch.tagslist(obj.tags);
         
         // Push to the array that will be indexed + array for latest update
         newItems.push(obj)

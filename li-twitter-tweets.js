@@ -16,7 +16,7 @@ var config = jf.readFileSync(configfile)
 // Get csv-file as 'data' (object)
 gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, result) {
   if (err) {
-    console.dif(err)
+    console.dir(err)
   }
   
   // Check if ANY changes since last indexing process
@@ -37,12 +37,13 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
       if (obj.date > config.newestItemDate) {
         
         // Document processing the rest
-        obj.datehuman = ifttnorch.datehuman(obj.date)
-        obj.id = ifttnorch.id(obj.date + obj.text)
-        obj.user = ifttnorch.twitterusers(obj.user, obj.text)
-        obj.tags = ifttnorch.tagstext(obj.text)
-        obj.links = ifttnorch.links(obj.text)
-        obj.type = [config.type]
+        obj.datehuman = ifttnorch.datehuman(obj.date);
+        obj.id = ifttnorch.id(obj.date + obj.text);
+        obj.user = ifttnorch.twitterusers(obj.user, obj.text);
+        obj.tags = ifttnorch.tagstext(obj.text);
+        obj.links = ifttnorch.links(obj.text);
+        obj.type = [config.type];
+        obj.teasertext = obj.text;
         
         // Push to the array that will be indexed + array for latest update
         newItems.push(obj)

@@ -16,7 +16,7 @@ var config = jf.readFileSync(configfile)
 // Get csv-file as 'data' (object)
 gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, result) {
   if (err) {
-    console.dif(err)
+    console.dir(err)
   }
   
   // Check if ANY changes since last indexing process
@@ -39,6 +39,8 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
         // Document processing the rest
         obj.datehuman = ifttnorch.datehuman(obj.date)
         obj.text = ifttnorch.markdown2html(obj.text)
+        obj.teasertext = ifttnorch.sanitizehtml(obj.text, [], {});
+        obj.tags = ifttnorch.autotagger(obj.title, obj.teasertext);
         obj.type = [config.type]
         obj.id = ifttnorch.id(obj.date + obj.url + obj.title + obj.text)
         
