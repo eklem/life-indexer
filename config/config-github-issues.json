@@ -5,7 +5,8 @@
   "batchname": "GithubIssues",
   "filters": [
     "user",
-    "type"
+    "type",
+    "tags"
   ],
   "gsheetLastUpdated": "",
   "newestItemDate": ""
