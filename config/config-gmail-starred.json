@@ -5,7 +5,8 @@
   "batchname": "GmailStarred",
   "filters": [
     "user",
-    "type"
+    "type",
+    "tags"
   ],
   "gsheetLastUpdated": "",
   "newestItemDate": ""
