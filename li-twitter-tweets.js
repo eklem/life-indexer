@@ -2,7 +2,12 @@
 var gsheets = require('gsheets')
 var fs = require('fs-extra')
 var ifttnorch = require('iftt-norch-tools')
-var options = { indexPath: 'si', logLevel: 'info', logSilent: false }
+var options = {
+    indexPath: 'li',
+    logLevel: 'info',
+    logSilent: false,
+    nGramLength: [1, 2, 3, 4]
+}
 var si = require('search-index')(options)
 var jf = require('jsonfile')
 var util = require('util')
@@ -52,16 +57,19 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
     }
 
     //Index newItems and update config-file with new dates
-    si.add({'batchName': config.batchname, 'filters': config.filters}, newItems, function(err) {
-      if (!err) {
-        console.log('indexed!')
-        config.newestItemDate = ifttnorch.findnewestdate(datesUpdated)
-        config.gsheetLastUpdated = result.updated
-        //console.dir(config)
-
-        // Write config file
-        jf.writeFileSync(configfile, config)
-      }
+    si.add(newItems, {
+        batchName: config.batchname,
+        fieldOptions: config.fieldoptions
+    }, function (err) {
+        if (!err) {
+            console.log('Indexed!')
+            config.newestItemDate = ifttnorch.findnewestdate(datesUpdated)
+            config.gsheetLastUpdated = result.updated
+            //console.dir(config)
+            
+            // Write config file
+            jf.writeFileSync(configfile, config, {spaces: 4})
+        }
     });
   }
 

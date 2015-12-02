@@ -1,0 +1,34 @@
+{
+    "name": "life-indexer",
+    "description": "The indexing module for Life-Index. Pulls JSON from Google Drive Spreadsheets with Gsheets, document process it and index it with Search-Index si.add. The data in Google Drive Spreadsheets are from different sources, added by IFTTT.com.",
+    "version": "0.0.1",
+    "homepage": "https://github.com/eklem/life-index",
+    "engines": {
+        "node": ">=0.10.0"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "gsheets": "~1.2.3",
+        "search-index": "~0.6.14",
+        "iftt-norch-tools": "~0.1.1",
+        "jsonfile": "~2.2.3",
+    },
+    "author": {
+        "email": "espen.klem@gmail.com",
+        "name": "Espen Klem"
+    },
+    "keywords": [
+        "index",
+        "personal search",
+        "search-index",
+        "life-index",
+        "search",
+        "digital life",
+        "searchable"
+    ],
+    "main": "./li-github-issues.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/fergiemcdowall/search-index.git"
+    }
+}
