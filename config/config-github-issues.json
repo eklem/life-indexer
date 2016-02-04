@@ -1,13 +1,22 @@
 {
-  "type": "GitHub",
-  "gsheetsKey": "[gsheetsKey]",
-  "gsheetsWorksheet": "Ark 1",
-  "batchname": "GithubIssues",
-  "filters": [
-    "user",
-    "type",
-    "tags"
-  ],
-  "gsheetLastUpdated": "",
-  "newestItemDate": ""
+    "type": "GitHub",
+    "gsheetsKey": "1h7N06HgoTHs0YEnG2PSFTtFg9xz7eDJgXYto5wnkJr4",
+    "gsheetsWorksheet": "Ark 1",
+    "batchname": "GithubIssues",
+    "fieldOptions": [
+        {
+            "fieldName": "tags",
+            "filter": true
+        },
+        {
+            "fieldName": "user",
+            "filter": true
+        },
+        {
+            "fieldName": "type",
+            "filter": true
+        }
+    ],
+    "gsheetLastUpdated": "",
+    "newestItemDate": ""
 }

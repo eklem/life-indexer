@@ -6,12 +6,12 @@ var options = {
     indexPath: 'li',
     logLevel: 'info',
     logSilent: false,
-    nGramLength: [1, 2, 3, 4]
+    nGramLength: [1, 2, 3]
 }
 var si = require('search-index')(options)
 var jf = require('jsonfile')
 var util = require('util')
-var configfile = '/Users/eklem/node_modules/life-indexer/config/config-flickr-uploads.json'
+var configfile = '/Users/eklem/github_modules/life-indexer/config/config-flickr-uploads.json'
 
 
 // Read config file
@@ -61,7 +61,7 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
     //Index newItems and update config-file with new dates
     si.add(newItems, {
         batchName: config.batchname,
-        fieldOptions: config.fieldoptions
+        fieldOptions: config.fieldOptions
     }, function (err) {
         if (!err) {
             console.log('Indexed!')

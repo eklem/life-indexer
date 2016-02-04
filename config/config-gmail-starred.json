@@ -1,13 +1,22 @@
 {
-  "type": "Gmail",
-  "gsheetsKey": "[gsheetsKey]",
-  "gsheetsWorksheet": "Ark 1",
-  "batchname": "GmailStarred",
-  "filters": [
-    "user",
-    "type",
-    "tags"
-  ],
-  "gsheetLastUpdated": "",
-  "newestItemDate": ""
+    "type": "Gmail",
+    "gsheetsKey": "17y0AYyMurfQKd9Ay7osdmvbznlHTvtKV0vd9tPyU9Ww",
+    "gsheetsWorksheet": "Ark 1",
+    "batchname": "GmailStarred",
+    "fieldOptions": [
+        {
+            "fieldName": "tags",
+            "filter": true
+        },
+        {
+            "fieldName": "user",
+            "filter": true
+        },
+        {
+            "fieldName": "type",
+            "filter": true
+        }
+    ],
+    "gsheetLastUpdated": "",
+    "newestItemDate": ""
 }

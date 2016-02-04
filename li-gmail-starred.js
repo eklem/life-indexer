@@ -6,12 +6,12 @@ var options = {
     indexPath: 'li',
     logLevel: 'info',
     logSilent: false,
-    nGramLength: [1, 2, 3, 4]
+    nGramLength: [1, 2, 3]
 }
 var si = require('search-index')(options)
 var jf = require('jsonfile')
 var util = require('util')
-var configfile = '/Users/eklem/node_modules/life-indexer/config/config-gmail-starred.json'
+var configfile = '/Users/eklem/github_modules/life-indexer/config/config-gmail-starred.json'
 
 
 // Read config file
@@ -25,26 +25,23 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
   }
   
   // Check if ANY changes since last indexing process
-//  if (result.updated != config.gsheetLastUpdated) {
+  if (result.updated != config.gsheetLastUpdated) {
 
     console.log('Index is not up to date.\nGsheet updated: ' + config.gsheetLastUpdated + '\nConfig updated: ' + result.updated)
     var newItems = []
     var datesUpdated = []
-    console.log(result.data.length);
 
     // Iterating through rows of data from spreadsheet
-    for (var i=config.indexedAmount; i<result.data.length; i++) {
+    for (var i=0; i<result.data.length; i++) {
       var obj = result.data[i]
 
       // Getting date and checking if indexed before
       //'j' for no leading zero
       //'d' for leading zero
-      console.log(i);
-      console.log(config.indexedAmount);
-      if (i - config.indexedAmount < 50) {
+      obj.date = ifttnorch.date(obj.date, 'd')
+      if (obj.date > config.newestItemDate) {
 
         // Document processing the rest
-        obj.date = ifttnorch.date(obj.date, 'd')
         obj.datehuman = ifttnorch.datehuman(obj.date);        
         obj.text = ifttnorch.sanitizehtml(obj.text, [ 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div', 'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'img' ] , {a: [ 'href', 'name', 'target' ], img: [ 'src' ]});
         obj.teasertext = ifttnorch.sanitizehtml(obj.text, [], {});
@@ -60,30 +57,28 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
         datesUpdated.push(obj.date)
       }
     }
-    config.indexedAmount = config.indexedAmount + 50;
 
-//    console.dir(newItems);
+    //console.dir(newItems)
 
     //Index newItems and update config-file with new dates
-    if (newItems.length > 0) {
-        si.add(newItems, {
-            batchName: config.batchname,
-            fieldOptions: config.fieldoptions
-        }, function (err) {
-            if (!err) {
-                console.log('Indexed!')
-                config.newestItemDate = ifttnorch.findnewestdate(datesUpdated)
-                config.gsheetLastUpdated = result.updated
-                //console.dir(config)
-
-                // Write config file
-                jf.writeFileSync(configfile, config, {spaces: 4})
-            }
-        });
-     }
+    si.add(newItems, {
+        batchName: config.batchname,
+        fieldOptions: config.fieldOptions
+    }, function (err) {
+        if (!err) {
+            console.log('Indexed!')
+            config.newestItemDate = ifttnorch.findnewestdate(datesUpdated)
+            config.gsheetLastUpdated = result.updated
+            //console.dir(config)
+            
+            // Write config file
+            jf.writeFileSync(configfile, config, {spaces: 4})
+        }
+    });
+  }
 
   // Nothing to index, just move along
   else {
     console.log('Index is up to date.\nNothing to index.\nGsheet updated: ' + config.gsheetLastUpdated + '\nConfig updated: ' + result.updated)
   }
-})
+});
