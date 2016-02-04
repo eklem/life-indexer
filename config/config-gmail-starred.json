@@ -1,6 +1,6 @@
 {
     "type": "Gmail",
-    "gsheetsKey": "17y0AYyMurfQKd9Ay7osdmvbznlHTvtKV0vd9tPyU9Ww",
+    "gsheetsKey": "",
     "gsheetsWorksheet": "Ark 1",
     "batchname": "GmailStarred",
     "fieldOptions": [

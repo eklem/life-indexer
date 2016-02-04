@@ -1,9 +1,9 @@
 {
     "type": "GitHub",
-    "gsheetsKey": "1h7N06HgoTHs0YEnG2PSFTtFg9xz7eDJgXYto5wnkJr4",
+    "gsheetsKey": "",
     "gsheetsWorksheet": "Ark 1",
     "batchname": "GithubIssues",
-    "fieldOptions": [
+     "fieldOptions": [
         {
             "fieldName": "tags",
             "filter": true
