@@ -4,15 +4,13 @@ var fs = require('fs-extra')
 var ifttnorch = require('iftt-norch-tools')
 var options = {
     indexPath: 'li',
-    logLevel: 'info',
-    logSilent: false,
+    logLevel: 'error',
     nGramLength: [1, 2, 3]
 }
-var si = require('search-index')(options)
-var jf = require('jsonfile')
-var util = require('util')
-var configfile = '/Users/eklem/github_modules/life-indexer/config/config-twitter-tweets.json'
-
+var searchIndex = require('search-index');
+var jf = require('jsonfile');
+var util = require('util');
+var configfile = ('./config/config-twitter-tweets.json');
 
 // Read config file
 var config = jf.readFileSync(configfile)
@@ -57,19 +55,21 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
     }
 
     //Index newItems and update config-file with new dates
-    si.add(newItems, {
-        batchName: config.batchname,
-        fieldOptions: config.fieldOptions
-    }, function (err) {
-        if (!err) {
-            console.log('Indexed!')
-            config.newestItemDate = ifttnorch.findnewestdate(datesUpdated)
-            config.gsheetLastUpdated = result.updated
-            //console.dir(config)
-            
-            // Write config file
-            jf.writeFileSync(configfile, config, {spaces: 4})
-        }
+    searchIndex(options, function(err, si) {
+      si.add(newItems, {
+          batchName: config.batchname,
+          fieldOptions: config.fieldOptions
+      }, function (err) {
+          if (!err) {
+              console.log('Indexed!')
+              config.newestItemDate = ifttnorch.findnewestdate(datesUpdated)
+              config.gsheetLastUpdated = result.updated
+              //console.dir(config)
+              
+              // Write config file
+              jf.writeFileSync(configfile, config, {spaces: 4})
+          }
+      });
     });
   }
 
