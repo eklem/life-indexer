@@ -1,19 +1,19 @@
 // Modules and stuff required
-var gsheets = require('gsheets')
-var fs = require('fs-extra')
-var ifttnorch = require('iftt-norch-tools')
+var gsheets = require('gsheets');
+var fs = require('fs-extra');
+var ifttnorch = require('iftt-norch-tools');
 var options = {
     indexPath: 'li',
     logLevel: 'error',
     nGramLength: [1, 2, 3]
-}
+};
 var searchIndex = require('search-index');
 var jf = require('jsonfile');
 var util = require('util');
 var configfile = ('./config/config-twitter-tweets.json');
 
 // Read config file
-var config = jf.readFileSync(configfile)
+var config = jf.readFileSync(configfile);
 
 
 // Get csv-file as 'data' (object)

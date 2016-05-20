@@ -1,17 +1,16 @@
 // Modules and stuff required
-var gsheets = require('gsheets')
-var fs = require('fs-extra')
-var ifttnorch = require('iftt-norch-tools')
+var gsheets = require('gsheets');
+var fs = require('fs-extra');
+var ifttnorch = require('iftt-norch-tools');
 var options = {
     indexPath: 'li',
-    logLevel: 'info',
-    logSilent: false,
+    logLevel: 'error',
     nGramLength: [1, 2, 3]
-}
-var si = require('search-index')(options)
-var jf = require('jsonfile')
-var util = require('util')
-var configfile = '/Users/eklem/github_modules/life-indexer/config/config-github-issues.json'
+};
+var searchIndex = require('search-index');
+var jf = require('jsonfile');
+var util = require('util');
+var configfile = ('./config/config-github-issues.json');
 
 
 // Read config file
@@ -23,7 +22,7 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
   if (err) {
     console.dir(err)
   }
-  
+
   // Check if ANY changes since last indexing process
   if (result.updated != config.gsheetLastUpdated) {
 
@@ -48,7 +47,7 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
         obj.tags = ifttnorch.autotagger(obj.title, obj.teasertext);
         obj.type = [config.type]
         obj.id = ifttnorch.id(obj.date + obj.url + obj.title + obj.text)
-        
+
         // Push to the array that will be indexed + array for latest update
         newItems.push(obj)
         datesUpdated.push(obj.date)
@@ -58,19 +57,21 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
     //console.dir(newItems)
 
     //Index newItems and update config-file with new dates
-    si.add(newItems, {
-        batchName: config.batchname,
-        fieldOptions: config.fieldOptions
-    }, function (err) {
-        if (!err) {
-            console.log('Indexed!')
-            config.newestItemDate = ifttnorch.findnewestdate(datesUpdated)
-            config.gsheetLastUpdated = result.updated
-            //console.dir(config)
-            
-            // Write config file
-            jf.writeFileSync(configfile, config, {spaces: 4})
-        }
+    searchIndex(options, function(err, si) {
+      si.add(newItems, {
+          batchName: config.batchname,
+          fieldOptions: config.fieldOptions
+      }, function (err) {
+          if (!err) {
+              console.log('Indexed!')
+              config.newestItemDate = ifttnorch.findnewestdate(datesUpdated)
+              config.gsheetLastUpdated = result.updated
+              //console.dir(config)
+
+              // Write config file
+              jf.writeFileSync(configfile, config, {spaces: 4})
+          }
+      });
     });
   }
 

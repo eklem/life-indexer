@@ -1,21 +1,20 @@
 // Modules and stuff required
-var gsheets = require('gsheets')
-var fs = require('fs-extra')
-var ifttnorch = require('iftt-norch-tools')
+var gsheets = require('gsheets');
+var fs = require('fs-extra');
+var ifttnorch = require('iftt-norch-tools');
 var options = {
     indexPath: 'li',
-    logLevel: 'info',
-    logSilent: false,
+    logLevel: 'error',
     nGramLength: [1, 2, 3]
-}
-var si = require('search-index')(options)
-var jf = require('jsonfile')
-var util = require('util')
-var configfile = '/Users/eklem/github_modules/life-indexer/config/config-gmail-starred.json'
+};
+var searchIndex = require('search-index');
+var jf = require('jsonfile');
+var util = require('util');
+var configfile = ('./config/config-gmail-starred.json');
 
 
 // Read config file
-var config = jf.readFileSync(configfile)
+var config = jf.readFileSync(configfile);
 
 
 // Get csv-file as 'data' (object)
@@ -42,7 +41,7 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
       if (obj.date > config.newestItemDate) {
 
         // Document processing the rest
-        obj.datehuman = ifttnorch.datehuman(obj.date);        
+        obj.datehuman = ifttnorch.datehuman(obj.date);
         obj.text = ifttnorch.sanitizehtml(obj.text, [ 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div', 'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'img' ] , {a: [ 'href', 'name', 'target' ], img: [ 'src' ]});
         obj.teasertext = ifttnorch.sanitizehtml(obj.text, [], {});
         obj.tags = ifttnorch.autotagger(obj.title, obj.teasertext);
@@ -51,7 +50,7 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
         obj.email = ifttnorch.emailaddress(obj.email);
         obj.user = ifttnorch.emailuser(obj.email);
         obj.gravatar = ifttnorch.emailgravatar(obj.email);
-        
+
         // Push to the array that will be indexed + array for latest update
         newItems.push(obj)
         datesUpdated.push(obj.date)
@@ -61,19 +60,21 @@ gsheets.getWorksheet(config.gsheetsKey, config.gsheetsWorksheet, function(err, r
     //console.dir(newItems)
 
     //Index newItems and update config-file with new dates
-    si.add(newItems, {
-        batchName: config.batchname,
-        fieldOptions: config.fieldOptions
-    }, function (err) {
-        if (!err) {
-            console.log('Indexed!')
-            config.newestItemDate = ifttnorch.findnewestdate(datesUpdated)
-            config.gsheetLastUpdated = result.updated
-            //console.dir(config)
-            
-            // Write config file
-            jf.writeFileSync(configfile, config, {spaces: 4})
-        }
+    searchIndex(options, function(err, si) {
+      si.add(newItems, {
+          batchName: config.batchname,
+          fieldOptions: config.fieldOptions
+      }, function (err) {
+          if (!err) {
+              console.log('Indexed!')
+              config.newestItemDate = ifttnorch.findnewestdate(datesUpdated)
+              config.gsheetLastUpdated = result.updated
+              //console.dir(config)
+
+              // Write config file
+              jf.writeFileSync(configfile, config, {spaces: 4})
+          }
+      });
     });
   }
 
