@@ -1,0 +1,22 @@
+{
+    "type": "Twitter",
+    "gsheetsKey": "[gsheets-key]",
+    "gsheetsWorksheet": "Ark 1",
+    "batchname": "Tweets",
+    "fieldOptions": [
+        {
+            "fieldName": "tags",
+            "filter": true
+        },
+        {
+            "fieldName": "user",
+            "filter": true
+        },
+        {
+            "fieldName": "type",
+            "filter": true
+        }
+    ],
+    "gsheetLastUpdated": "",
+    "newestItemDate": ""
+}
